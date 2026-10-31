@@ -1,0 +1,8 @@
+# Local environment (not part of the app)
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Runtime working copies created by the app at run time
+data/browser-sessions/

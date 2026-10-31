@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import httpx
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
+from fastapi.routing import APIRoute
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from PIL import Image, ImageOps
@@ -30,6 +31,25 @@ from storage import (
 
 seed()
 app = FastAPI(title="Casefile Studio", version="0.4.2", docs_url="/api/docs")
+
+
+class HeadAPIRoute(APIRoute):
+    """Serve HEAD wherever GET exists.
+
+    Starlette adds HEAD for plain routes, but FastAPI's APIRoute does not, so a
+    GET-only app answers 405 to HEAD. Live-preview proxies and uptime monitors
+    routinely probe with HEAD and treat 405 as "the port is not up".
+    """
+
+    def __init__(self, path, endpoint, **kwargs):
+        methods = list(kwargs.get("methods") or ())
+        if "GET" in methods and "HEAD" not in methods:
+            kwargs["methods"] = [*methods, "HEAD"]
+        super().__init__(path, endpoint, **kwargs)
+
+
+app.router.route_class = HeadAPIRoute
+
 POOL = ThreadPoolExecutor(max_workers=4)
 RENDER_LOCK = threading.Semaphore(1)
 SESSIONS = {}

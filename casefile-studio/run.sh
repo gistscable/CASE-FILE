@@ -5,4 +5,8 @@ if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; 
   echo "FFmpeg and ffprobe are required. See README.md for setup." >&2
   exit 1
 fi
-exec python -m uvicorn app:app --host 0.0.0.0 --port "${PORT:-8000}"
+# Use the local virtualenv when one exists, otherwise the system interpreter.
+PYTHON=python
+[ -x .venv/bin/python ] && PYTHON=.venv/bin/python
+# serve.py binds one dual-stack socket so both IPv4 and IPv6 clients reach the app.
+exec "$PYTHON" serve.py
