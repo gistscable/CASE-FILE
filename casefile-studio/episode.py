@@ -1663,6 +1663,7 @@ def build(project, allow_placeholders=False, inspection=False):
                     "asset_id": s.get("asset_id"),
                     "trim_start": s.get("trim_start", 0),
                     "source_crop_end": s.get("source_crop_end"),
+                    "source_label": s.get("source_label", ""),
                 }
     for s in scenes:
         if s.get("guide_gap") and s.get("guide_cue_id"):
@@ -1672,6 +1673,9 @@ def build(project, allow_placeholders=False, inspection=False):
                 s["asset_id"] = crop["asset_id"]
                 s["trim_start"] = crop["trim_start"]
                 s["source_crop_end"] = crop["source_crop_end"]
+                # A gap that repeats the cue's crop must also repeat its
+                # source/date disclosure; issues() rejects a blank label.
+                s["source_label"] = crop["source_label"]
     if len(scenes) > 400:
         raise ValueError(
             "This plan exceeds 400 scenes. Shorten the material or revise the guide."
@@ -1956,6 +1960,10 @@ def issues(project):
             review = candidate["window"] if inspection else e["reviews"][cue["id"]]
             start = float(scene.get("trim_start", 0))
             end = start + float(scene["duration"])
+            if scene.get("guide_gap") and scene.get("source_crop_end") is not None:
+                # Gap cards repeat the cue's exact reviewed crop (renderer.py's
+                # loop rule). Validate the crop, not the looped scene duration.
+                end = float(scene["source_crop_end"])
             if start < review["in"] - 0.025 or end > review["out"] + 0.025:
                 add(
                     "episode_source_bounds",
