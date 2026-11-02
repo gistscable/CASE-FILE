@@ -1,7 +1,7 @@
 """Deterministic FFmpeg renderer. No AI calls, shell interpolation, or remote media."""
 
 from __future__ import annotations
-import json, math, shutil, subprocess, tempfile, textwrap
+import json, math, os, shutil, subprocess, tempfile, textwrap
 from pathlib import Path
 from typing import Callable
 from editorial import strip_references
@@ -11,8 +11,31 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
 FPS = 24
-FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+# DejaVu Sans is a system package on Linux, but those paths do not exist on
+# macOS. Fall back to the bundled DM Sans (SIL OFL, see web/assets/FONT-LICENSE.txt)
+# so title/disclosure overlays stay legible without a system font install.
+BUNDLED_FONT = ROOT / "web" / "assets" / "dm-sans.ttf"
+
+
+def _system_font(name):
+    override = os.environ.get("CASEFILE_FONT_DIR")
+    dirs = [Path(override)] if override else []
+    dirs += [
+        Path("/usr/share/fonts/truetype/dejavu"),
+        Path("/usr/local/share/fonts/dejavu"),
+        Path("/opt/homebrew/share/fonts/dejavu"),
+        Path("/opt/homebrew/share/fonts"),
+        Path.home() / "Library/Fonts",
+    ]
+    for directory in dirs:
+        candidate = directory / name
+        if candidate.is_file():
+            return str(candidate)
+    return ""
+
+
+FONT = _system_font("DejaVuSans.ttf") or str(BUNDLED_FONT)
+BOLD = _system_font("DejaVuSans-Bold.ttf") or FONT
 
 
 def plain(text: str) -> str:

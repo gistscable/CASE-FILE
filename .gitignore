@@ -8,3 +8,6 @@ node_modules/
 # Local scratch output
 *.log.tmp
 .DS_Store
+
+# Runtime browser-session snapshots written by the app
+casefile-studio/data/browser-sessions/
