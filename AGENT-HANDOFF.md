@@ -36,6 +36,18 @@ Frontend rebuild after editing `web/src/`: `npm install && npm run build`
 inside `casefile-studio/`, then restart the server. Browsers cache the
 bundle — version bumps exist so a plain refresh picks it up.
 
+## Hosting
+
+The app deploys to Render as a Docker service: `casefile-studio/Dockerfile`
++ `casefile-studio/docker-entrypoint.sh` + `render.yaml` (repo root) +
+`casefile-studio/RENDER-DEPLOY.md`. Deploy via Render's Blueprint flow
+(New → Blueprint), not a hand-made Web Service. The storage root is
+relocatable via `CASEFILE_DATA_DIR` (`storage.resolve_asset`); the
+entrypoint seeds a fresh data volume from the image on first boot.
+Optional HTTP basic auth via `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD`
+env vars (`tests/test_basicauth.py`) — off unless both are set; the app
+has no login of its own, so keep it on for any public URL.
+
 ## Data conventions
 
 The storage root is `CASEFILE_DATA_DIR` if set, otherwise `casefile-studio/data`

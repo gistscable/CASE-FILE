@@ -133,12 +133,14 @@ def test_render_yaml_builds_the_app_from_its_own_directory():
 def test_render_yaml_disk_matches_storage_root_when_enabled():
     service = _blueprint_service()
     disk = service.get("disk")
+    env = {e["key"]: e.get("value") for e in (service.get("envVars") or [])}
     if not disk:
-        # Free plan: no disk, so the app must fall back to in-image storage.
+        # Free plan: no disk, so the app must fall back to in-image storage —
+        # nothing may redirect the storage root elsewhere. (BASIC_AUTH_* are
+        # the password gate and do not affect storage.)
         assert service["plan"] == "free"
-        assert not (service.get("envVars") or [])
+        assert "CASEFILE_DATA_DIR" not in env
         return
-    env = {e["key"]: e.get("value") for e in service["envVars"]}
     assert env["CASEFILE_DATA_DIR"] == disk["mountPath"]
     assert disk["sizeGB"] >= 1
     assert service["plan"] != "free"

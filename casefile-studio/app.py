@@ -1,5 +1,5 @@
 from __future__ import annotations
-import copy, json, re, shutil, threading, uuid
+import base64, copy, hmac, json, os, re, shutil, threading, uuid
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Literal
@@ -32,6 +32,34 @@ from storage import (
 
 seed()
 app = FastAPI(title="Casefile Studio", version="0.4.13", docs_url="/api/docs")
+
+
+@app.middleware("http")
+async def optional_basic_auth(request: Request, call_next):
+    """Password gate for public hosting.
+
+    Inactive unless both BASIC_AUTH_USER and BASIC_AUTH_PASSWORD are set in
+    the environment (e.g. on Render). Protects every route, including the
+    static frontend and media files.
+    """
+    user = os.environ.get("BASIC_AUTH_USER", "")
+    password = os.environ.get("BASIC_AUTH_PASSWORD", "")
+    if user and password:
+        expected = "Basic " + base64.b64encode(
+            f"{user}:{password}".encode("utf-8")
+        ).decode("ascii")
+        provided = request.headers.get("authorization", "")
+        if not hmac.compare_digest(
+            provided.encode("utf-8"), expected.encode("ascii")
+        ):
+            return JSONResponse(
+                {"detail": "Authentication required."},
+                status_code=401,
+                headers={"WWW-Authenticate": 'Basic realm="Casefile Studio"'},
+            )
+    return await call_next(request)
+
+
 POOL = ThreadPoolExecutor(max_workers=4)
 RENDER_LOCK = threading.Semaphore(1)
 SESSIONS = {}

@@ -16,9 +16,14 @@ web service.
 1. Merge this branch to `main`.
 2. In the Render Dashboard: **New → Blueprint**, pick the `gistscable/CASE-FILE`
    repo, and select `main` (or the branch containing `render.yaml`).
-3. Render reads `render.yaml`, builds the image, and starts the service. First
+3. Render asks for two environment values (`BASIC_AUTH_USER`,
+   `BASIC_AUTH_PASSWORD`). **Fill both in** — they become the username and
+   password the browser asks for when opening the site. The app has no login
+   of its own; leaving these empty means anyone who finds the URL can open,
+   edit, and download your projects. (Both empty = gate off, for local runs.)
+4. Render reads `render.yaml`, builds the image, and starts the service. First
    build takes a few minutes on Free (apt + pip).
-4. Open the `onrender.com` URL. `GET /healthz` should return
+5. Open the `onrender.com` URL. `GET /healthz` should return
    `{"ok": true, ...}`.
 
 ## If you already created a service by hand
