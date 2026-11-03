@@ -14,6 +14,8 @@ import ai, renderer, editorial, production, episode
 from storage import (
     ROOT,
     DATA,
+    asset_reference,
+    resolve_asset,
     LOCK,
     now,
     uid,
@@ -274,6 +276,12 @@ def sanitize_scene(scene, asset_ids):
     return out
 
 
+@app.get("/healthz")
+def healthz():
+    """Cheap liveness probe for hosting platforms; never touches media."""
+    return {"ok": True, "version": app.version, "render": bool(shutil.which("ffmpeg"))}
+
+
 @app.get("/api/bootstrap")
 def bootstrap(request: Request):
     return {
@@ -358,10 +366,7 @@ def media_status(id: str):
     result = []
     for asset in p.get("assets", []):
         try:
-            file = (ROOT / asset.get("path", "")).resolve()
-            exists = (
-                bool(asset.get("path")) and file.is_relative_to(ROOT) and file.is_file()
-            )
+            exists = resolve_asset(asset.get("path")).is_file()
         except (OSError, ValueError):
             exists = False
         result.append(
@@ -727,7 +732,7 @@ async def upload(
             asset = {
                 "id": uid(),
                 "name": (file.filename or name)[:180],
-                "path": str(path.relative_to(ROOT)),
+                "path": asset_reference(path),
                 "url": f"/media/{id}/{name}",
                 "size": size,
                 "generated": False,
@@ -2039,12 +2044,7 @@ def first_draft(id: str):
         available = set()
         for asset in p.get("assets", []):
             try:
-                path = (ROOT / asset.get("path", "")).resolve()
-                exists = (
-                    bool(asset.get("path"))
-                    and path.is_relative_to(ROOT)
-                    and path.is_file()
-                )
+                exists = resolve_asset(asset.get("path")).is_file()
             except (ValueError, OSError):
                 exists = False
             asset["available_on_server"] = exists

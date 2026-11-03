@@ -19,7 +19,12 @@ cd casefile-studio
 .venv/bin/python -m uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-Tests (239 passing at handoff; browser/long-render ones are slow-path):
+Hosted on Render: `render.yaml` at the repo root builds
+`casefile-studio/Dockerfile` with a persistent disk at `/var/data`
+(`CASEFILE_DATA_DIR`). See `casefile-studio/RENDER-DEPLOY.md`. Do not run more
+than one uvicorn worker — jobs and AI sessions are in-process state.
+
+Tests (250 passing at handoff; browser/long-render ones are slow-path):
 
 ```bash
 PATH=<ffmpeg-dir>:$PATH .venv/bin/python -m pytest tests/ -q \
@@ -32,6 +37,12 @@ inside `casefile-studio/`, then restart the server. Browsers cache the
 bundle — version bumps exist so a plain refresh picks it up.
 
 ## Data conventions
+
+The storage root is `CASEFILE_DATA_DIR` if set, otherwise `casefile-studio/data`
+(`storage.DATA`). Render points it at the mounted disk. Asset paths are stored
+relative to the code root when inside it, absolute when on the disk; resolve
+them with `storage.resolve_asset` / `renderer.asset_path`, never
+`ROOT / path`.
 
 - `data/projects/*.json` — project state, **committed**.
 - `data/exports/<id>/` — rendered outputs, **committed** (each ~90 MB MP4;

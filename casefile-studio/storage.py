@@ -1,16 +1,45 @@
 from __future__ import annotations
-import json, re, threading, uuid
+import json, os, re, threading, uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from PIL import Image, ImageOps, ImageEnhance
 
 ROOT = Path(__file__).resolve().parent
-DATA = ROOT / "data"
+# Hosted deployments (e.g. Render) mount a persistent disk outside the code
+# checkout and point CASEFILE_DATA_DIR at it. Without it, data stays in-repo.
+DATA = Path(os.environ.get("CASEFILE_DATA_DIR") or (ROOT / "data")).expanduser().resolve()
 LOCK = threading.RLock()
 
 
 def now():
     return datetime.now(timezone.utc).isoformat()
+
+
+def asset_reference(path):
+    """Store an asset path relative to the code root, or absolute if outside it.
+
+    Hosted deployments keep media on a mounted disk outside ROOT, so a plain
+    relative_to(ROOT) would raise there.
+    """
+    resolved = Path(path).resolve()
+    try:
+        return str(resolved.relative_to(ROOT))
+    except ValueError:
+        return str(resolved)
+
+
+def resolve_asset(path):
+    """Turn a stored asset path back into a real file, staying inside allowed roots."""
+    if not path:
+        raise ValueError("Asset has no file path.")
+    candidate = Path(path)
+    resolved = (
+        candidate if candidate.is_absolute() else (ROOT / candidate)
+    ).resolve()
+    allowed = {ROOT.resolve(), DATA.resolve()}
+    if not any(resolved == root or resolved.is_relative_to(root) for root in allowed):
+        raise ValueError("Asset path is outside the workspace.")
+    return resolved
 
 
 def uid():
@@ -251,7 +280,7 @@ def seed():
                 "id": uid(),
                 "name": names[i],
                 "kind": "image",
-                "path": str(path.relative_to(ROOT)),
+                "path": asset_reference(path),
                 "url": f"/media/{p['id']}/demo-{i}.jpg",
                 "thumbnail": f"/media/{p['id']}/demo-{i}.jpg",
                 "width": image.width,

@@ -1,0 +1,28 @@
+# Keep the Render build context small and the image lean.
+# Render resolves these paths relative to the service's root directory
+# (casefile-studio), see the rootDir setting in ../render.yaml.
+
+# VCS and local tooling
+.git
+.gitignore
+node_modules
+.venv
+**/__pycache__
+*.pyc
+.pytest_cache
+.DS_Store
+*.log
+*.log.tmp
+
+# Tests, QA evidence, and proof artifacts are not read at runtime.
+tests/
+qa/
+applied-fallback-proof/
+*.mp4
+*.wav
+
+# Media uploads never live in git; data/exports is kept because the image
+# seeds it onto a fresh disk on first boot.
+data/media/
+data/browser-sessions/
+data/recovery-backups/
