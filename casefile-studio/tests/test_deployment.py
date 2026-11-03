@@ -112,17 +112,33 @@ def test_uploaded_media_is_stored_under_the_data_root(isolated):
     assert [a["exists"] for a in status["assets"]] == [True]
 
 
-def test_render_yaml_declares_disk_and_matching_storage_root():
+def _blueprint_service():
     yaml = pytest.importorskip("yaml")
     blueprint = yaml.safe_load((STUDIO.parent / "render.yaml").read_text())
-    service = next(
-        s for s in blueprint["services"] if s["type"] == "web"
-    )
+    return next(s for s in blueprint["services"] if s["type"] == "web")
+
+
+def test_render_yaml_builds_the_app_from_its_own_directory():
+    service = _blueprint_service()
     assert service["runtime"] == "docker"
+    # The app, requirements.txt, and Dockerfile all live in casefile-studio/.
+    # Without rootDir, Render builds from the repo root and fails.
     assert service["rootDir"] == "casefile-studio"
     # Docker paths are resolved relative to rootDir.
     assert service["dockerfilePath"] == "./Dockerfile"
+    assert service["dockerContext"] == "."
     assert service["healthCheckPath"] == "/healthz"
+
+
+def test_render_yaml_disk_matches_storage_root_when_enabled():
+    service = _blueprint_service()
+    disk = service.get("disk")
+    if not disk:
+        # Free plan: no disk, so the app must fall back to in-image storage.
+        assert service["plan"] == "free"
+        assert not (service.get("envVars") or [])
+        return
     env = {e["key"]: e.get("value") for e in service["envVars"]}
-    assert env["CASEFILE_DATA_DIR"] == service["disk"]["mountPath"]
-    assert service["disk"]["sizeGB"] >= 1
+    assert env["CASEFILE_DATA_DIR"] == disk["mountPath"]
+    assert disk["sizeGB"] >= 1
+    assert service["plan"] != "free"

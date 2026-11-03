@@ -2,40 +2,81 @@
 
 The repo ships a [Render Blueprint](https://render.com/docs/blueprint-spec) at
 `render.yaml` (repo root). It builds `casefile-studio/Dockerfile` and creates one
-web service with a persistent disk.
+web service.
+
+> **Use the Blueprint, not "New → Web Service".**
+> A service created by hand ignores `render.yaml` entirely. It builds from the
+> repo root with Render's default Python build command and fails with
+> `Exited with status 1 while building your code` because `requirements.txt`
+> lives in `casefile-studio/`, not at the root. See
+> [If you already created a service by hand](#if-you-already-created-a-service-by-hand).
 
 ## Deploy
 
-1. Push this branch to GitHub.
+1. Merge this branch to `main`.
 2. In the Render Dashboard: **New → Blueprint**, pick the `gistscable/CASE-FILE`
-   repo, and select the branch you want to deploy.
-3. Render reads `render.yaml`, builds the image, and starts the service.
-   First build takes a few minutes (apt + pip + a ~160 MB image).
+   repo, and select `main` (or the branch containing `render.yaml`).
+3. Render reads `render.yaml`, builds the image, and starts the service. First
+   build takes a few minutes on Free (apt + pip).
 4. Open the `onrender.com` URL. `GET /healthz` should return
    `{"ok": true, ...}`.
+
+## If you already created a service by hand
+
+This is what the failed deploy in the Render dashboard is. Its source is
+`ba4176f` from the merged `arena/80ddbdde-case-file` branch, with no root
+directory and no Dockerfile, so the build could not find `requirements.txt`.
+
+Pick one:
+
+- **Recommended — delete and recreate as a Blueprint.** Service **Settings →
+  Delete Web Service**, then **New → Blueprint** as above. This gives you the
+  Docker image (with `ffmpeg`) and the `/healthz` health check.
+- **Or patch the existing service by hand.** In **Settings**: set **Language**
+  to *Docker*, **Root Directory** to `casefile-studio`, **Dockerfile Path** to
+  `./Dockerfile`, **Docker Build Context Directory** to `.`, and **Health Check
+  Path** to `/healthz`. Also switch the tracked branch from the merged feature
+  branch to `main`, or it will keep deploying the old code.
 
 ## What the blueprint does
 
 | Setting | Value | Why |
 | --- | --- | --- |
 | `runtime` | `docker` | The renderer shells out to `ffmpeg`/`ffprobe` and draws captions with DejaVu fonts. The Dockerfile installs both; Render's native Python runtime does not. |
-| `rootDir` | `casefile-studio` | Docker paths resolve relative to the root directory. This also keeps the 90 MB proof videos at the repo root out of the build context. |
+| `rootDir` | `casefile-studio` | The app, `requirements.txt`, and `Dockerfile` are all in this subdirectory. Docker paths resolve relative to it, and it keeps the large proof videos at the repo root out of the build context. |
 | `healthCheckPath` | `/healthz` | Cheap, media-free liveness endpoint. |
-| `plan` | `starter` | The smallest instance type that can attach a persistent disk. |
-| `envVars.CASEFILE_DATA_DIR` | `/var/data` | Points the app's storage root at the disk. |
-| `disk.mountPath` | `/var/data` | Must match `CASEFILE_DATA_DIR`. Size is 10 GB. |
+| `plan` | `free` | Works out of the box. See storage below for the tradeoff. |
 
-### Storage layout
+### Storage: what survives
 
-`CASEFILE_DATA_DIR` (default: `casefile-studio/data`) holds everything the app
-writes: `projects/`, `media/` (uploads), `exports/` (rendered MP4s and
-sidecars), and `jobs/`.
+The storage root is `CASEFILE_DATA_DIR` if set, otherwise `casefile-studio/data`
+inside the image. It holds `projects/`, `media/` (uploads), `exports/` (rendered
+MP4s and sidecars), and `jobs/`.
 
-On Render the disk starts empty. On first boot `docker-entrypoint.sh` copies the
-projects and exports baked into the image into `/var/data`, drops a
-`.volume-initialized` marker, and never copies again. Later deploys keep
-whatever is already on the disk, so producer uploads and renders survive
-redeploys and restarts.
+On the **Free plan** there is no persistent disk, so:
+
+- The image ships the committed projects and exports, so the app is fully usable
+  on every boot — the demo project, `Bismilah`, and the earlier cases.
+- **Uploads, new projects, and renders are lost** on redeploy, restart, or when
+  Render spins the service down after 15 minutes idle.
+
+To keep producer data, upgrade the instance to `starter` (the smallest plan that
+supports a disk) and switch on the commented block in `render.yaml`:
+
+```yaml
+plan: starter
+envVars:
+  - key: CASEFILE_DATA_DIR
+    value: /var/data
+disk:
+  name: casefile-data
+  mountPath: /var/data
+  sizeGB: 10
+```
+
+On first boot with a disk, `docker-entrypoint.sh` copies the image's workspace
+onto the empty disk, drops a `.volume-initialized` marker, and never copies
+again. Later deploys keep whatever is on the disk.
 
 Asset paths are stored relative to the checkout when the file lives inside it,
 and as absolute paths when it lives on the disk. Both forms are validated
@@ -61,25 +102,18 @@ python -m uvicorn app:app --host 0.0.0.0 --port ${PORT:-10000} --proxy-headers -
 Render routes traffic to `$PORT` (default `10000`). Keep it to **one uvicorn
 worker**: in-flight render jobs and connected AI keys live in process memory.
 
-## Free tier instead of a disk
-
-Free web services cannot attach a persistent disk. To try the app on Free,
-delete the `disk:` block and the `CASEFILE_DATA_DIR` env var from `render.yaml`
-and set `plan: free`. The service still boots and the included workspace is
-seeded from the image, but it spins down after 15 minutes idle, and every
-redeploy or spin-up starts from the image again: producer uploads and renders
-will not survive.
-
 ## Settings that matter at runtime
 
 - **No AI key is required.** Local editing and rendering work without one. AI
   features need a key entered in the app's Settings, which is held in server
   memory per browser session, not in the repo or the environment.
+- **Cold starts.** A free instance spins down after 15 minutes without traffic
+  and takes ~50 seconds to answer the next request.
 - **Uploads** are capped by the app at 512 MB per file, 30 files per batch. Long
   uploads and multi-minute renders run as background jobs, so the browser is not
   waiting on one request. Render still applies its own proxy request timeout, so
   a very slow single upload can be cut off; retry with fewer/smaller files.
-- **Renders are CPU-bound.** The `starter` plan is 0.5 CPU, which is slow for
+- **Renders are CPU-bound.** Free and `starter` are 0.5 CPU, which is slow for
   20–40 minute episodes. Use a larger plan (`standard`/`2c-4g` or above) for
   real episode work. Only one render runs at a time (`RENDER_LOCK`).
 - **Restarting or redeploying interrupts in-flight jobs.** They are marked
@@ -94,18 +128,17 @@ curl -s https://<service>.onrender.com/healthz
 curl -s https://<service>.onrender.com/api/bootstrap | head -c 200
 ```
 
-`"render": true` in `/healthz` confirms `ffmpeg` is on `PATH` inside the
-container. If it is `false`, episode rendering will fail even though the UI
-loads.
+`"render": true` confirms `ffmpeg` is on `PATH` inside the container. If it is
+`false`, episode rendering will fail even though the UI loads.
 
 ## Local container test
 
 ```bash
 cd casefile-studio
 docker build -t casefile-studio .
-# No disk: runs as `studio`, data inside the container.
+# Free-plan behaviour: data inside the image, nothing persists.
 docker run --rm -p 8000:10000 casefile-studio
-# With a disk, emulating Render's root-owned mount:
+# Disk behaviour, emulating Render's root-owned mount:
 mkdir -p /tmp/casefile-data
 docker run --rm -p 8000:10000 -v /tmp/casefile-data:/var/data \
   -e CASEFILE_DATA_DIR=/var/data casefile-studio
@@ -122,5 +155,5 @@ python -m pytest tests/ -q \
 
 `tests/test_deployment.py` pins this contract: the storage root follows
 `CASEFILE_DATA_DIR`, asset paths round-trip from either location, path traversal
-is refused, `/healthz` stays cheap, and `render.yaml` keeps the disk mount and
-`CASEFILE_DATA_DIR` in agreement.
+is refused, `/healthz` stays cheap, and the blueprint keeps `rootDir` and the
+disk mount consistent.
