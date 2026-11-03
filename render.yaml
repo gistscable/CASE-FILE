@@ -17,6 +17,11 @@
 #
 # To keep producer data between deploys, upgrade the instance and switch on the
 # commented block at the bottom of this file.
+#
+# Password gate: the app has no login of its own. When both BASIC_AUTH_USER
+# and BASIC_AUTH_PASSWORD are set, every route (frontend, API, media,
+# exports) requires HTTP basic auth; when either is empty the gate is off.
+# During the Blueprint deploy Render asks for both values — fill them in.
 
 services:
   - type: web
@@ -32,15 +37,20 @@ services:
     dockerContext: .
     healthCheckPath: /healthz
     autoDeployTrigger: commit
+    envVars:
+      - key: BASIC_AUTH_USER
+        sync: false
+      - key: BASIC_AUTH_PASSWORD
+        sync: false
 
     # --- With a persistent disk (paid instance, data survives deploys) ---
-    # Uncomment these two lines AND the `disk:` block below, then set the
-    # instance type to `starter` (the smallest plan that supports a disk).
-    # envVars:
+    # Set the instance type to `starter` (the smallest plan that supports a
+    # disk), add the CASEFILE_DATA_DIR line below to envVars, and uncomment
+    # the `disk:` block.
     #   - key: CASEFILE_DATA_DIR
     #     value: /var/data
     #
     # disk:
-    #   name: casefile-data
-    #   mountPath: /var/data
-    #   sizeGB: 10
+    #   - name: casefile-data
+    #     mountPath: /var/data
+    #     sizeGB: 10
