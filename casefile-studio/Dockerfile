@@ -9,8 +9,9 @@ COPY --chown=studio:studio . /app
 # The entrypoint starts as root only to hand a mounted data disk (Render mounts
 # it root-owned) to `studio`, then drops privileges before the server starts.
 # With no mounted disk it runs as `studio` from the start.
+# Keep the entrypoint executable even if the checkout loses the file mode.
 RUN mkdir -p /app/data && chown -R studio:studio /app \
-    && chmod +x /app/docker-entrypoint.sh
+    && chmod 755 /app/docker-entrypoint.sh
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
 # Bind to $PORT (Render's routing port, default 10000). One worker only: the app
 # keeps in-flight jobs and AI sessions in process memory.
