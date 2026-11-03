@@ -7,9 +7,8 @@ from typing import Callable
 from editorial import strip_references
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
+from storage import DATA, ROOT, resolve_asset
 
-ROOT = Path(__file__).resolve().parent
-DATA = ROOT / "data"
 FPS = 24
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
@@ -319,8 +318,13 @@ def run(cmd, cancelled: Callable[[], bool]):
 
 
 def asset_path(asset):
-    p = (ROOT / asset["path"]).resolve()
-    if not p.is_relative_to(ROOT) or not p.exists():
+    try:
+        p = resolve_asset(asset.get("path"))
+    except ValueError:
+        raise ValueError(
+            "A referenced media file is missing. Re-upload it before rendering."
+        )
+    if not p.is_file():
         raise ValueError(
             "A referenced media file is missing. Re-upload it before rendering."
         )

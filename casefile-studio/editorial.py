@@ -8,9 +8,9 @@ import hashlib
 import json
 import re
 from datetime import datetime, timezone
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+from storage import ROOT, resolve_asset
+
 REFERENCE = re.compile(r"\[\s*(S\d+(?:(?:\s*[,;]\s*|\s+)S?\d+)*)\s*\]", re.I)
 UNRESOLVED = re.compile(
     r"\[(?:NEEDS?\s+SOURCE|SOURCE\s+NEEDED|UNVERIFIED|FACT\s*CHECK|TODO|CITATION\s+NEEDED)(?:[^\]]*)\]",
@@ -377,12 +377,7 @@ def inspect(project, check_files=True):
             )
         if check_files:
             try:
-                path = (ROOT / asset.get("path", "")).resolve()
-                exists = (
-                    bool(asset.get("path"))
-                    and path.is_relative_to(ROOT)
-                    and path.is_file()
-                )
+                exists = resolve_asset(asset.get("path")).is_file()
             except (ValueError, OSError):
                 exists = False
             if not exists:

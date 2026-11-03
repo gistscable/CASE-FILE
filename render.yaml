@@ -1,0 +1,39 @@
+# Render Blueprint for Casefile Studio.
+#
+# Deploy: Render Dashboard -> New -> Blueprint -> pick this repo/branch.
+# Render reads this file, builds casefile-studio/Dockerfile, and creates the
+# web service plus its persistent disk.
+#
+# Why Docker rather than Render's native Python runtime: the renderer shells
+# out to ffmpeg/ffprobe and draws captions with DejaVu fonts. The Dockerfile
+# installs both; a native runtime would need them added as a build step.
+#
+# Why a disk: uploads, project JSON, and rendered MP4s are written under the
+# storage root. Without a disk they vanish on every deploy/restart.
+# A disk requires a paid instance type (Free cannot attach one). To try this
+# on Free, delete the `disk:` block and the CASEFILE_DATA_DIR service setting
+# below; the included workspace is still seeded on each boot, but producer
+# uploads and renders will not survive a restart.
+
+services:
+  - type: web
+    name: casefile-studio
+    runtime: docker
+    plan: starter # smallest plan that supports a persistent disk
+    region: ohio
+    # Docker paths are resolved relative to rootDir. Setting a root directory
+    # also keeps the multi-hundred-MB proof videos at the repo root out of the
+    # build context.
+    rootDir: casefile-studio
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      # Must match the disk mountPath below.
+      - key: CASEFILE_DATA_DIR
+        value: /var/data
+    disk:
+      name: casefile-data
+      mountPath: /var/data
+      sizeGB: 10
