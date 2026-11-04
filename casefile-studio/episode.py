@@ -131,7 +131,7 @@ def parse_guide(raw, filename="editing-guide.md"):
         raise ValueError("The editing guide exceeds 500,000 characters.")
     sources = []
     for match in re.finditer(
-        r"^- \*\*(S\d+)\s*[—–-]\s*\[([^\]]+)\]\((https?://[^\s)]+)\)\*\*(.*?)(?=^- |^#{1,6}\s|\Z)",
+        r"^- \*\*([A-Z]\d+)\s*[—–-]\s*\[([^\]]+)\]\((https?://[^\s)]+)\)\*\*(.*?)(?=^- |^#{1,6}\s|\Z)",
         raw,
         re.M | re.S,
     ):
@@ -148,15 +148,53 @@ def parse_guide(raw, filename="editing-guide.md"):
                 else "Not established in the guide.",
             }
         )
+    # New template: ### Y01 — Title / YouTube: https://...
+    for match in re.finditer(
+        r"^###\s+([A-Z]\d+)\s*[—–-]\s*([^\n]+)\n(.*?)(?=^###\s+[A-Z]\d+\s*[—–-]|^##\s+|\Z)",
+        raw,
+        re.M | re.S,
+    ):
+        sid, title, notes = match.groups()
+        if sid.upper() in {s["id"] for s in sources}:
+            continue
+        url_m = re.search(r"YouTube:\s*(https?://[^\s)]+)", notes, re.I) or re.search(
+            r"(https?://[^\s)]+)", notes
+        )
+        url = safe_url(url_m.group(1)) if url_m else None
+        if not url:
+            continue
+        sources.append(
+            {
+                "id": sid.upper(),
+                "title": title.strip(),
+                "url": url,
+                "notes": notes.strip(),
+                "rights_note": "Not established in the guide.",
+            }
+        )
     cues = []
     for chapter, body in re.findall(
-        r"^###\s+(HOOK|CHAPTER\s+\d+)\s*\n(.*?)(?=^### |^## |\Z)", raw, re.M | re.S
+        r"^#{2,3}\s+(HOOK|CHAPTER\s+\d+).*?\n(.*?)(?=^#{2,3}\s+(?:HOOK|CHAPTER\s+\d+)\s*(?:[—–-].*)?\s*\n|\Z)",
+        raw,
+        re.M | re.S,
     ):
-        for number, block in re.findall(
-            r"^(\d+)\.\s+(\*\*At:\*\*.*?)(?=^\d+\.\s+\*\*At:|\Z)", body, re.M | re.S
-        ):
+        placement_iter = []
+        new_places = re.findall(
+            r"^###\s+(\d+)\.\s+Placement\s+\d+\s*\n(.*?)(?=^###\s+\d+\.\s+Placement|\Z)",
+            body,
+            re.M | re.S,
+        )
+        if new_places:
+            placement_iter = new_places
+        else:
+            placement_iter = re.findall(
+                r"^(\d+)\.\s+(\*\*At:\*\*.*?)(?=^\d+\.\s+\*\*At:|\Z)",
+                body,
+                re.M | re.S,
+            )
+        for number, block in placement_iter:
             fields = {}
-            field_names = r"At|Show|Preview|Label|Care|Alternatives?(?:[ _-]+(?:Label|Preview|Care))?|Fallback(?:[ _-]+(?:Label|Preview|Care))?|Alt(?:[ _-]+(?:Label|Preview|Care))?|If[ _-]+(?:unavailable|missing)"
+            field_names = r"At|Show|Preview|Label|Care|Source[ _-]+ID|Your[ _-]+timing|Anchor[ _-]+check|Crop[ _-]+fill|Narration(?:[ _-]+unchanged)?|Alternatives?(?:[ _-]+(?:Label|Preview|Care))?|Fallback(?:[ _-]+(?:Label|Preview|Care))?|Alt(?:[ _-]+(?:Label|Preview|Care))?|If[ _-]+(?:unavailable|missing)"
             for name, value in re.findall(
                 r"\*\*("
                 + field_names
@@ -177,8 +215,12 @@ def parse_guide(raw, filename="editing-guide.md"):
             if not anchor:
                 raise ValueError("Every placement needs a quoted At phrase.")
             refs = list(
-                dict.fromkeys(re.findall(r"`(S\d+)`", fields.get("preview", "")))
+                dict.fromkeys(re.findall(r"`([A-Z]\d+)`", fields.get("preview", ""), re.I))
             )
+            if not refs and fields.get("source_id"):
+                m = re.search(r"\b([A-Z]\d+)\b", fields["source_id"], re.I)
+                if m:
+                    refs = [m.group(1).upper()]
             link = re.search(
                 r"\[[^\]]+\]\((https?://[^\s)]+)\)", fields.get("preview", "")
             )
@@ -186,7 +228,7 @@ def parse_guide(raw, filename="editing-guide.md"):
                 raise ValueError(f"Placement {number} has no source ID.")
             windows = []
             for a, b in re.findall(
-                r"(\d+(?::\d+){1,2})\s*[–—-]\s*(\d+(?::\d+){1,2})",
+                r"(\d+(?::\d+){1,2}(?:[.,]\d+)?)\s*[–—-]\s*(\d+(?::\d+){1,2}(?:[.,]\d+)?)",
                 fields.get("preview", ""),
             ):
                 start, end = stamp(a), stamp(b)
@@ -202,13 +244,13 @@ def parse_guide(raw, filename="editing-guide.md"):
                 for fragment in re.split(
                     r"\bor\b|alternatively", fields.get("preview", ""), flags=re.I
                 ):
-                    ids = list(dict.fromkeys(re.findall(r"`(S\d+)`", fragment)))
+                    ids = list(dict.fromkeys(re.findall(r"`([A-Z]\d+)`", fragment, re.I)))
                     if len(ids) == 1:
                         preview_segments[ids[0]] = fragment
                 if refs[0] in preview_segments:
                     windows = []
                     for a, b in re.findall(
-                        r"(\d+(?::\d+){1,2})\s*[–—-]\s*(\d+(?::\d+){1,2})",
+                        r"(\d+(?::\d+){1,2}(?:[.,]\d+)?)\s*[–—-]\s*(\d+(?::\d+){1,2}(?:[.,]\d+)?)",
                         preview_segments[refs[0]],
                     ):
                         start, end = stamp(a), stamp(b)
@@ -311,13 +353,13 @@ def parse_guide(raw, filename="editing-guide.md"):
                     continue
                 alt_ids.extend(
                     x.upper()
-                    for x in re.findall(r"\bS\d+\b", sentence, re.I)
+                    for x in re.findall(r"\b[A-Z]\d+\b", sentence, re.I)
                     if x.upper() != refs[0]
                 )
             alt_ids = list(dict.fromkeys(alt_ids))
             alt_windows = []
             for a, b in re.findall(
-                r"(\d+(?::\d+){1,2})\s*[–—-]\s*(\d+(?::\d+){1,2})",
+                r"(\d+(?::\d+){1,2}(?:[.,]\d+)?)\s*[–—-]\s*(\d+(?::\d+){1,2}(?:[.,]\d+)?)",
                 alt_preview or alt_text,
             ):
                 start, end = stamp(a), stamp(b)
@@ -379,7 +421,7 @@ def parse_guide(raw, filename="editing-guide.md"):
                     if fragment:
                         option["suggested_windows"] = []
                         for a, b in re.findall(
-                            r"(\d+(?::\d+){1,2})\s*[–—-]\s*(\d+(?::\d+){1,2})", fragment
+                            r"(\d+(?::\d+){1,2}(?:[.,]\d+)?)\s*[–—-]\s*(\d+(?::\d+){1,2}(?:[.,]\d+)?)", fragment
                         ):
                             start, end = stamp(a), stamp(b)
                             if end <= start:
@@ -1132,7 +1174,16 @@ def analyze(project):
             ):
                 if reference[i : i + len(needles)] == needles:
                     matches.append(i)
+        else:
+            # Fallback for single-section scripts: search across the whole narration
+            # while still respecting order to avoid reusing earlier words.
+            fallback_lo = last_word.get("_global", 0)
+            for i in range(fallback_lo, len(reference) - len(needles) + 1):
+                if reference[i : i + len(needles)] == needles:
+                    matches.append(i)
         idx = matches[0] if len(matches) == 1 else None
+        if idx is not None and not section:
+            last_word["_global"] = idx + len(needles)
         review = e.get("reviews", {}).get(cue["id"], {})
         item.update(
             matched=idx is not None,
