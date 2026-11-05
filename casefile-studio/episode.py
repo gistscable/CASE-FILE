@@ -131,7 +131,7 @@ def parse_guide(raw, filename="editing-guide.md"):
         raise ValueError("The editing guide exceeds 500,000 characters.")
     sources = []
     for match in re.finditer(
-        r"^- \*\*([A-Z]\d+)\s*[—–-]\s*\[([^\]]+)\]\((https?://[^\s)]+)\)\*\*(.*?)(?=^- |^#{1,6}\s|\Z)",
+        r"^- \*\*([A-Z][A-Z_-]*\d+)\s*[—–-]\s*\[([^\]]+)\]\((https?://[^\s)]+)\)\*\*(.*?)(?=^- |^#{1,6}\s|\Z)",
         raw,
         re.M | re.S,
     ):
@@ -150,7 +150,7 @@ def parse_guide(raw, filename="editing-guide.md"):
         )
     # New template: ### Y01 — Title / YouTube: https://...
     for match in re.finditer(
-        r"^###\s+([A-Z]\d+)\s*[—–-]\s*([^\n]+)\n(.*?)(?=^###\s+[A-Z]\d+\s*[—–-]|^##\s+|\Z)",
+        r"^###\s+([A-Z][A-Z_-]*\d+)\s*[—–-]\s*([^\n]+)\n(.*?)(?=^###\s+[A-Z][A-Z_-]*\d+\s*[—–-]|^##\s+|\Z)",
         raw,
         re.M | re.S,
     ):
@@ -215,10 +215,10 @@ def parse_guide(raw, filename="editing-guide.md"):
             if not anchor:
                 raise ValueError("Every placement needs a quoted At phrase.")
             refs = list(
-                dict.fromkeys(re.findall(r"`([A-Z]\d+)`", fields.get("preview", ""), re.I))
+                dict.fromkeys(re.findall(r"`([A-Z][A-Z_-]*\d+)`", fields.get("preview", ""), re.I))
             )
             if not refs and fields.get("source_id"):
-                m = re.search(r"\b([A-Z]\d+)\b", fields["source_id"], re.I)
+                m = re.search(r"\b([A-Z][A-Z_-]*\d+)\b", fields["source_id"], re.I)
                 if m:
                     refs = [m.group(1).upper()]
             link = re.search(
@@ -244,7 +244,7 @@ def parse_guide(raw, filename="editing-guide.md"):
                 for fragment in re.split(
                     r"\bor\b|alternatively", fields.get("preview", ""), flags=re.I
                 ):
-                    ids = list(dict.fromkeys(re.findall(r"`([A-Z]\d+)`", fragment, re.I)))
+                    ids = list(dict.fromkeys(re.findall(r"`([A-Z][A-Z_-]*\d+)`", fragment, re.I)))
                     if len(ids) == 1:
                         preview_segments[ids[0]] = fragment
                 if refs[0] in preview_segments:
@@ -353,7 +353,7 @@ def parse_guide(raw, filename="editing-guide.md"):
                     continue
                 alt_ids.extend(
                     x.upper()
-                    for x in re.findall(r"\b[A-Z]\d+\b", sentence, re.I)
+                    for x in re.findall(r"\b[A-Z][A-Z_-]*\d+\b", sentence, re.I)
                     if x.upper() != refs[0]
                 )
             alt_ids = list(dict.fromkeys(alt_ids))
@@ -1463,7 +1463,7 @@ def resolve_automatic_source_links(project):
         hints = {
             x.upper()
             for x in re.findall(
-                r"(?<![A-Za-z0-9])(S\d+)(?![A-Za-z0-9])", asset.get("name", ""), re.I
+                r"(?<![A-Za-z0-9])([A-Z][A-Z_-]*\d+)(?![A-Za-z0-9])", asset.get("name", ""), re.I
             )
         } & known
         candidates = [o for o in options if hints == {o["source_id"]}]
