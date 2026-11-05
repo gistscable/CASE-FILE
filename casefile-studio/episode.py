@@ -179,19 +179,37 @@ def parse_guide(raw, filename="editing-guide.md"):
         re.M | re.S,
     ):
         placement_iter = []
-        new_places = re.findall(
-            r"^###\s+(\d+)\.\s+Placement\s+\d+\s*\n(.*?)(?=^###\s+\d+\.\s+Placement|\Z)",
+        # Generic split: every numbered ### heading is a terminator, but only
+        # true placement headings (Placement N or Narration beat with optional
+        # BLOCKED) become cues. This keeps BLOCKED beats from being swallowed
+        # and still excludes CapCut-insert cards like "Thaddeus Bullard".
+        generic_places = re.findall(
+            r"^###\s+(\d+)\.\s+(.*?)\n(.*?)(?=^###\s+\d+\.\s+|\Z)",
             body,
             re.M | re.S,
         )
-        if new_places:
-            placement_iter = new_places
-        else:
-            placement_iter = re.findall(
-                r"^(\d+)\.\s+(\*\*At:\*\*.*?)(?=^\d+\.\s+\*\*At:|\Z)",
+        if generic_places:
+            for num, title, block in generic_places:
+                if re.match(
+                    r"(?:Placement\s+\d+|(?:BLOCKED\s+[—–-]\s+)?Narration beat)",
+                    title.strip(),
+                    re.I,
+                ):
+                    placement_iter.append((num, block))
+        if not placement_iter:
+            new_places = re.findall(
+                r"^###\s+(\d+)\.\s+(?:Placement\s+\d+|(?:BLOCKED\s+[—–-]\s+)?Narration beat).*?\n(.*?)(?=^###\s+\d+\.\s+(?:Placement|(?:BLOCKED\s+[—–-])?Narration beat)|\Z)",
                 body,
                 re.M | re.S,
             )
+            if new_places:
+                placement_iter = new_places
+            else:
+                placement_iter = re.findall(
+                    r"^(\d+)\.\s+(\*\*At:\*\*.*?)(?=^\d+\.\s+\*\*At:|\Z)",
+                    body,
+                    re.M | re.S,
+                )
         for number, block in placement_iter:
             fields = {}
             field_names = r"At|Show|Preview|Label|Care|Source[ _-]+ID|Your[ _-]+timing|Anchor[ _-]+check|Crop[ _-]+fill|Narration(?:[ _-]+unchanged)?|Alternatives?(?:[ _-]+(?:Label|Preview|Care))?|Fallback(?:[ _-]+(?:Label|Preview|Care))?|Alt(?:[ _-]+(?:Label|Preview|Care))?|If[ _-]+(?:unavailable|missing)"
