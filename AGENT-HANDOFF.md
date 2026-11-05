@@ -64,6 +64,12 @@ them with `storage.resolve_asset` / `renderer.asset_path`, never
   re-render without re-uploading media.
 - `data/jobs/` — render job records, committed.
 - `data/browser-sessions/`, `data/recovery-backups/` — ignored, transient.
+- `examples/the-last-timeline/sources/` — committed `manifest.json` +
+  `sources.csv` for the guide's 21 YouTube sources (canonical file names),
+  with `tools/fetch_youtube_sources.py` to download/rename them on a machine
+  with internet access. `sources/downloads/` is ignored: the videos are
+  third-party, uncleared and multi-GB, and the app still never downloads
+  YouTube itself.
 
 ## Current project state
 
