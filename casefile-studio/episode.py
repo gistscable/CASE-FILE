@@ -1564,7 +1564,9 @@ def build(project, allow_placeholders=False, inspection=False):
         events[frame] = {"chapter": section, "cue": None}
     for cue in report["placements"]:
         frame = round(cue["narration_start"] * FPS)
-        section = next(s for s in script["sections"] if s["key"] == cue["chapter"])
+        section = next((s for s in script["sections"] if s["key"] == cue["chapter"]), None)
+        if section is None:
+            section = script["sections"][0]
         if frame in events and events[frame].get("cue"):
             raise ValueError(
                 "Two guide cues have the same frame. Set distinct narration start times."
