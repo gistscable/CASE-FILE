@@ -1,5 +1,5 @@
 # ONE-TIME PROMPT — Casefile Studio + CapCut (Agent-Proof, No-Lazy Version)
-*Use verbatim. Attach: Narration.md + corrected SRT + corrected JSON + 1x Casefile example guide + 1x CapCut example guide + optional YouTube links.*
+*Use verbatim. Attach: [Narration.md](http://Narration.md) + corrected SRT + corrected JSON + 1x Casefile example guide + 1x CapCut example guide + optional YouTube links.*
 
 I am attaching my narration, the **corrected SRT and JSON**, and two example editing guides: one for **Casefile Studio** and one for **CapCut**. Create two new Markdown guides for the new narration, using the attached guides as **format and workflow templates only**. Do not carry over their case names, footage, scene counts, insert counts, timing, FPS or other case-specific details. The 104-placement and 44-placement examples are **structure only** — do not copy their number of scenes.
 
@@ -27,7 +27,7 @@ I am attaching my narration, the **corrected SRT and JSON**, and two example edi
 **Casefile Studio Guide — Required Format:**
 - Keep this exact card together per placement, in order: `At / Show / Preview / Label / Care / Source ID / Your timing`
 - Add `**Narration — unchanged:**` verbatim paragraph after each card, then `**Source ID:**`, `**Your timing:** HH:MM:SS,mmm --> HH:MM:SS,mmm`.
-- Continuous coverage from `00:00:00,000` through verified baseline end (`00:31:37,100` or as supplied), with `scene N end = scene N+1 start`. If first caption starts at `00:00:00,167`, include `00:00:00,000–00:00:00,167` inside **existing scene 1** and explicitly name its Source ID / YouTube link / selected range in *both* the Opening Instruction and Placement 1. Do not create a blank scene.
+- Continuous coverage from `00:00:00,000` through verified baseline end `00:31:37,100` or as supplied), with `scene N end = scene N+1 start`. If first caption starts at `00:00:00,167`, include `00:00:00,000–00:00:00,167` inside **existing scene 1** and explicitly name its Source ID / YouTube link / selected range in *both* the Opening Instruction and Placement 1. Do not create a blank scene.
 - Deliver: Opening Instruction + `How to use` + `Same-crop loop rule` + `Script-by-script placement` (with HOOK / CHAPTER 1… headings) + `Source library — YouTube only` + `Loop-join & Transition Table`.
 
 **Crop Loop Rule (Picture-Only, No Substitution):**
