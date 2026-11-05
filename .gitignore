@@ -22,3 +22,8 @@ node_modules/
 casefile-studio/data/media/
 casefile-studio/data/browser-sessions/
 casefile-studio/data/recovery-backups/
+
+# Downloaded third-party guide sources (see
+# casefile-studio/examples/the-last-timeline/sources/README.md):
+# a manifest is committed, the video files themselves are not.
+casefile-studio/examples/the-last-timeline/sources/downloads/

@@ -1,0 +1,1025 @@
+{
+  "manifest_version": 1,
+  "guide": {
+    "title": "The Last Timeline — Casefile Studio guide, DIVERSE REVISION FOR APPROVAL",
+    "supplied_file": "Casefile_Studio_Diverse_Revision_FOR_APPROVAL.md",
+    "local_copy": "../../diverse-revision-guide.md",
+    "status": "proposed revision for approval — not an applied edit",
+    "placement_count": 105,
+    "picture_assigned_placements": 73,
+    "blocked_placements": 32,
+    "baseline_end": "00:31:37,100",
+    "source_count": 21,
+    "distinct_selected_windows": 73
+  },
+  "naming": {
+    "pattern": "{source_id}__{upload_date}__{uploader_slug}__{title_slug}__{video_id}.mp4",
+    "example": "C01__2024-04-24__10-tampa-bay-news__i-feel-cheated-family-of-murdered-14-year-old-tampa-boy__z0GGKSasvIg.mp4",
+    "rules": [
+      "source_id is the guide's Source ID (C01–C21), so a file always maps back to one guide row.",
+      "upload_date is the YouTube upload date (YYYY-MM-DD), not the event date.",
+      "uploader_slug is the publishing station/agency, lowercased, ascii, hyphens.",
+      "title_slug is the first 60 characters of the upload title, cut on a word boundary.",
+      "video_id is the 11-character YouTube id, so a renamed file can always be re-verified."
+    ]
+  },
+  "media_policy": {
+    "committed_to_git": false,
+    "reason": "Source video is third-party news/police material with no reuse licence established, and files run to GBs. Downloads live in sources/downloads/ (gitignored); see sources/README.md.",
+    "rights": "No source here is cleared for reuse. YouTube links are locators, not imported files; obtain permission or another lawful basis before publishing.",
+    "verification": "Timestamped storyboard samples + metadata were inspected in the guide's research pass. Continuous picture and source audio were NOT reviewed; all source crops remain approximate."
+  },
+  "sources": [
+    {
+      "id": "C01",
+      "video_id": "z0GGKSasvIg",
+      "url": "https://www.youtube.com/watch?v=z0GGKSasvIg",
+      "title": "'I feel cheated': Family of murdered 14-year-old Tampa boy speaks out, offers reward",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-04-24",
+      "duration_seconds": 128.0,
+      "role": "picture source",
+      "placements": [
+        1,
+        2,
+        5,
+        19,
+        24
+      ],
+      "windows": [
+        {
+          "placement": 1,
+          "start": "00:00:40,000",
+          "end": "00:00:44,000",
+          "description": "Low, rail-level view down the tracks in the case report."
+        },
+        {
+          "placement": 2,
+          "start": "00:01:44,000",
+          "end": "00:01:52,000",
+          "description": "Jevario’s car portrait, as carried in the April reward report."
+        },
+        {
+          "placement": 5,
+          "start": "00:01:28,000",
+          "end": "00:01:32,000",
+          "description": "Vegetation and ground beside the railway in the report."
+        },
+        {
+          "placement": 19,
+          "start": "00:00:32,000",
+          "end": "00:00:35,000",
+          "description": "Side view of the railway corridor."
+        },
+        {
+          "placement": 24,
+          "start": "00:00:56,000",
+          "end": "00:00:59,000",
+          "description": "Trackside vegetation and rail view."
+        }
+      ],
+      "file_name": "C01__2024-04-24__10-tampa-bay-news__i-feel-cheated-family-of-murdered-14-year-old-tampa-boy__z0GGKSasvIg.mp4"
+    },
+    {
+      "id": "C02",
+      "video_id": "eUIhBElp_uc",
+      "url": "https://www.youtube.com/watch?v=eUIhBElp_uc",
+      "title": "Local Tampa officials seek tips in shooting death of 14-year-old",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-04-22",
+      "duration_seconds": 41.0,
+      "role": "picture source",
+      "placements": [
+        11,
+        22,
+        23,
+        30,
+        50
+      ],
+      "windows": [
+        {
+          "placement": 11,
+          "start": "00:00:33,000",
+          "end": "00:00:37,000",
+          "description": "Jevario’s standing portrait in the April appeal."
+        },
+        {
+          "placement": 22,
+          "start": "00:00:20,000",
+          "end": "00:00:24,000",
+          "description": "Station map zoom toward the reported Tampa location."
+        },
+        {
+          "placement": 23,
+          "start": "00:00:25,000",
+          "end": "00:00:28,000",
+          "description": "Busch/Rome street-sign shot."
+        },
+        {
+          "placement": 30,
+          "start": "00:00:03,000",
+          "end": "00:00:11,000",
+          "description": "April news presenter beside Jevario’s photos."
+        },
+        {
+          "placement": 50,
+          "start": "00:00:38,000",
+          "end": "00:00:41,000",
+          "description": "Jevario’s car portrait at the end of the appeal."
+        }
+      ],
+      "file_name": "C02__2024-04-22__10-tampa-bay-news__local-tampa-officials-seek-tips-in-shooting-death-of-14__eUIhBElp_uc.mp4"
+    },
+    {
+      "id": "C03",
+      "video_id": "B5qzKsfKcAA",
+      "url": "https://www.youtube.com/watch?v=B5qzKsfKcAA",
+      "title": "Teen to be charged as adult for murder of 14-year-old Jevario Buie",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-12-05",
+      "duration_seconds": 171.0,
+      "role": "picture source",
+      "placements": [
+        29,
+        40,
+        54,
+        58,
+        61,
+        62
+      ],
+      "windows": [
+        {
+          "placement": 29,
+          "start": "00:01:22,000",
+          "end": "00:01:27,000",
+          "description": "Chief Bercaw at the December announcement."
+        },
+        {
+          "placement": 40,
+          "start": "00:01:04,000",
+          "end": "00:01:07,000",
+          "description": "North Rome/West Busch street signs."
+        },
+        {
+          "placement": 54,
+          "start": "00:01:46,000",
+          "end": "00:01:55,000",
+          "description": "Bercaw at the podium during the report’s digital-evidence explanation."
+        },
+        {
+          "placement": 58,
+          "start": "00:00:19,000",
+          "end": "00:00:27,000",
+          "description": "Hannah Dineen reporting outside on the arrest-announcement night."
+        },
+        {
+          "placement": 61,
+          "start": "00:01:32,000",
+          "end": "00:01:42,000",
+          "description": "Bercaw speaking at the December briefing."
+        },
+        {
+          "placement": 62,
+          "start": "00:01:58,000",
+          "end": "00:02:05,000",
+          "description": "Prosecution-office representative at the announcement podium."
+        }
+      ],
+      "file_name": "C03__2024-12-05__10-tampa-bay-news__teen-to-be-charged-as-adult-for-murder-of-14-year-old__B5qzKsfKcAA.mp4"
+    },
+    {
+      "id": "C04",
+      "video_id": "a0NS9AsqdeA",
+      "url": "https://www.youtube.com/watch?v=a0NS9AsqdeA",
+      "title": "Tampa Police Seek Persons of Interest in Jevario Buie death",
+      "uploader": "TampaPD",
+      "upload_date": "2024-05-09",
+      "duration_seconds": 18.0,
+      "role": "picture source",
+      "placements": [
+        26,
+        38,
+        48
+      ],
+      "windows": [
+        {
+          "placement": 26,
+          "start": "00:00:01,000",
+          "end": "00:00:07,000",
+          "description": "Three teenagers progress into the residential-camera image."
+        },
+        {
+          "placement": 38,
+          "start": "00:00:08,000",
+          "end": "00:00:13,000",
+          "description": "The group crosses the camera’s near field and tree area."
+        },
+        {
+          "placement": 48,
+          "start": "00:00:13,000",
+          "end": "00:00:17,000",
+          "description": "The three-person group continues beyond the tree toward a vehicle area."
+        }
+      ],
+      "file_name": "C04__2024-05-09__tampapd__tampa-police-seek-persons-of-interest-in-jevario-buie-death__a0NS9AsqdeA.mp4"
+    },
+    {
+      "id": "C05",
+      "video_id": "WV986cbBAqg",
+      "url": "https://www.youtube.com/watch?v=WV986cbBAqg",
+      "title": "CRIMESTOPPERS REWARD INCREASED IN HOMICIDE INVESTIGATION OF 14-YEAR-OLD JEVARIO BUIE",
+      "uploader": "TampaPD",
+      "upload_date": "2024-05-09",
+      "duration_seconds": 863.0,
+      "role": "picture source",
+      "placements": [
+        28,
+        37,
+        41
+      ],
+      "windows": [
+        {
+          "placement": 28,
+          "start": "00:02:25,000",
+          "end": "00:02:31,000",
+          "description": "Chief Bercaw at the podium before the shared surveillance."
+        },
+        {
+          "placement": 37,
+          "start": "00:02:11,000",
+          "end": "00:02:25,000",
+          "description": "Bercaw at the lectern during his canvass explanation."
+        },
+        {
+          "placement": 41,
+          "start": "00:02:36,000",
+          "end": "00:02:45,000",
+          "description": "Residential-camera surveillance shown during Bercaw’s request to identify the two people."
+        }
+      ],
+      "file_name": "C05__2024-05-09__tampapd__crimestoppers-reward-increased-in-homicide-investigation-of__WV986cbBAqg.mp4"
+    },
+    {
+      "id": "C06",
+      "video_id": "rT4s5tphM4g",
+      "url": "https://www.youtube.com/watch?v=rT4s5tphM4g",
+      "title": "New video released of Tampa teen killed in April",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-05-09",
+      "duration_seconds": 133.0,
+      "role": "picture source",
+      "placements": [
+        10,
+        21,
+        34,
+        35,
+        39,
+        42,
+        43
+      ],
+      "windows": [
+        {
+          "placement": 10,
+          "start": "00:00:40,000",
+          "end": "00:00:43,000",
+          "description": "Tampa Police building sign/exterior."
+        },
+        {
+          "placement": 21,
+          "start": "00:02:08,000",
+          "end": "00:02:12,000",
+          "description": "Jevario’s portrait after the briefing report."
+        },
+        {
+          "placement": 34,
+          "start": "00:01:03,000",
+          "end": "00:01:10,000",
+          "description": "Thaddeus Bullard at the police briefing podium."
+        },
+        {
+          "placement": 35,
+          "start": "00:01:28,000",
+          "end": "00:01:34,000",
+          "description": "Patrick Messmer speaking at the May briefing."
+        },
+        {
+          "placement": 39,
+          "start": "00:01:40,000",
+          "end": "00:01:48,000",
+          "description": "Released surveillance reproduced inside the report."
+        },
+        {
+          "placement": 42,
+          "start": "00:00:44,000",
+          "end": "00:00:50,000",
+          "description": "Messmer answering in the May briefing."
+        },
+        {
+          "placement": 43,
+          "start": "00:01:56,000",
+          "end": "00:01:59,000",
+          "description": "Tampa police vehicles/exterior in the report."
+        }
+      ],
+      "file_name": "C06__2024-05-09__10-tampa-bay-news__new-video-released-of-tampa-teen-killed-in-april__rT4s5tphM4g.mp4"
+    },
+    {
+      "id": "C07",
+      "video_id": "pL4PoqPMafw",
+      "url": "https://www.youtube.com/watch?v=pL4PoqPMafw",
+      "title": "TPD: Search underway after teen accused of killing 14-year-old Jevario Buie escaped juvenile detenti",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-12-09",
+      "duration_seconds": 159.0,
+      "role": "picture source",
+      "placements": [
+        66,
+        67
+      ],
+      "windows": [
+        {
+          "placement": 66,
+          "start": "00:00:59,000",
+          "end": "00:01:03,000",
+          "description": "Business-camera view of the road with a running figure, carried in the escape report."
+        },
+        {
+          "placement": 67,
+          "start": "00:01:19,000",
+          "end": "00:01:23,000",
+          "description": "Aircraft in the sky within the search package."
+        }
+      ],
+      "file_name": "C07__2024-12-09__10-tampa-bay-news__tpd-search-underway-after-teen-accused-of-killing-14-year__pL4PoqPMafw.mp4",
+      "notes": "Upload date is 2024-12-09 but the bulletin describes the Dec 8, 2024 search. Date-label the report, not the search day."
+    },
+    {
+      "id": "C08",
+      "video_id": "dbGceLiuZ4Y",
+      "url": "https://www.youtube.com/watch?v=dbGceLiuZ4Y",
+      "title": "ESCAPED JUVENILE INMATE CAPTURED IN TAMPA",
+      "uploader": "TampaPD",
+      "upload_date": "2024-12-09",
+      "duration_seconds": 618.0,
+      "role": "picture source",
+      "placements": [
+        69,
+        71
+      ],
+      "windows": [
+        {
+          "placement": 69,
+          "start": "00:07:29,000",
+          "end": "00:07:43,000",
+          "description": "Messmer at the lectern with Cate standing beside him."
+        },
+        {
+          "placement": 71,
+          "start": "00:02:20,000",
+          "end": "00:02:35,000",
+          "description": "Cate responding at the recapture briefing."
+        }
+      ],
+      "file_name": "C08__2024-12-09__tampapd__escaped-juvenile-inmate-captured-in-tampa__dbGceLiuZ4Y.mp4"
+    },
+    {
+      "id": "C09",
+      "video_id": "OHILsLEzZ40",
+      "url": "https://www.youtube.com/watch?v=OHILsLEzZ40",
+      "title": "Teen accused of murder facing more charges after escaping detention center, Tampa police say",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-12-09",
+      "duration_seconds": 203.0,
+      "role": "picture source",
+      "placements": [
+        14,
+        65,
+        68,
+        70
+      ],
+      "windows": [
+        {
+          "placement": 14,
+          "start": "00:02:16,000",
+          "end": "00:02:20,000",
+          "description": "Fenced detention-area exterior/vegetation in the recapture report."
+        },
+        {
+          "placement": 65,
+          "start": "00:02:18,000",
+          "end": "00:02:22,000",
+          "description": "Fenced juvenile-facility exterior in follow-up reporting."
+        },
+        {
+          "placement": 68,
+          "start": "00:01:20,000",
+          "end": "00:01:28,000",
+          "description": "Messmer at the later recapture briefing."
+        },
+        {
+          "placement": 70,
+          "start": "00:01:44,000",
+          "end": "00:01:51,000",
+          "description": "Cate speaking at the follow-up briefing."
+        }
+      ],
+      "file_name": "C09__2024-12-09__10-tampa-bay-news__teen-accused-of-murder-facing-more-charges-after-escaping__OHILsLEzZ40.mp4"
+    },
+    {
+      "id": "C10",
+      "video_id": "ViL-3fyD5iA",
+      "url": "https://www.youtube.com/watch?v=ViL-3fyD5iA",
+      "title": "17-year-old found guilty in 2024 murder of Tampa teen",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2026-09-04",
+      "duration_seconds": 25.0,
+      "role": "picture source",
+      "placements": [
+        79,
+        88
+      ],
+      "windows": [
+        {
+          "placement": 79,
+          "start": "00:00:19,000",
+          "end": "00:00:22,000",
+          "description": "Wide case courtroom view with bench and counsel tables."
+        },
+        {
+          "placement": 88,
+          "start": "00:00:00,000",
+          "end": "00:00:04,000",
+          "description": "Station news anchor reporting the verdict."
+        }
+      ],
+      "file_name": "C10__2026-09-04__10-tampa-bay-news__17-year-old-found-guilty-in-2024-murder-of-tampa-teen__ViL-3fyD5iA.mp4"
+    },
+    {
+      "id": "C11",
+      "video_id": "YIDP32FMSho",
+      "url": "https://www.youtube.com/watch?v=YIDP32FMSho",
+      "title": "Jahmir Moore sentenced in murder of Tampa 14-year-old",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2026-10-16",
+      "duration_seconds": 31.0,
+      "role": "picture source",
+      "placements": [
+        92,
+        96
+      ],
+      "windows": [
+        {
+          "placement": 92,
+          "start": "00:00:16,000",
+          "end": "00:00:19,000",
+          "description": "Judge Goudie at the bench in the sentencing update."
+        },
+        {
+          "placement": 96,
+          "start": "00:00:28,000",
+          "end": "00:00:31,000",
+          "description": "Judge Goudie speaking at the bench."
+        }
+      ],
+      "file_name": "C11__2026-10-16__10-tampa-bay-news__jahmir-moore-sentenced-in-murder-of-tampa-14-year-old__YIDP32FMSho.mp4"
+    },
+    {
+      "id": "C12",
+      "video_id": "cXp03ZJ5SFg",
+      "url": "https://www.youtube.com/watch?v=cXp03ZJ5SFg",
+      "title": "Family of a Jevario Buie bids for justice in hopes to find answers in his death",
+      "uploader": "WFLA News Channel 8",
+      "upload_date": "2024-04-28",
+      "duration_seconds": 120.0,
+      "role": "picture source",
+      "placements": [
+        32
+      ],
+      "windows": [
+        {
+          "placement": 32,
+          "start": "00:01:12,000",
+          "end": "00:01:16,000",
+          "description": "Memorial booth/display, photographs and attendees at the crime-victims vigil."
+        }
+      ],
+      "file_name": "C12__2024-04-28__wfla-news-channel-8__family-of-a-jevario-buie-bids-for-justice-in-hopes-to-find__cXp03ZJ5SFg.mp4"
+    },
+    {
+      "id": "C13",
+      "video_id": "e9IADjNowCg",
+      "url": "https://www.youtube.com/watch?v=e9IADjNowCg",
+      "title": "Mother of 14-year-old murdered in Tampa demands justice for her son",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-04-28",
+      "duration_seconds": 146.0,
+      "role": "research/context only",
+      "placements": [],
+      "windows": [],
+      "file_name": "C13__2024-04-28__10-tampa-bay-news__mother-of-14-year-old-murdered-in-tampa-demands-justice-for__e9IADjNowCg.mp4",
+      "notes": "Research/context or insert candidate only. Not assigned to any picture placement; download only if a later revision uses it."
+    },
+    {
+      "id": "C14",
+      "video_id": "YiVcQQGFf_E",
+      "url": "https://www.youtube.com/watch?v=YiVcQQGFf_E",
+      "title": "With no arrests made, family pleads for information after 14-year-old shot and killed in Tampa",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2024-04-26",
+      "duration_seconds": 153.0,
+      "role": "picture source",
+      "placements": [
+        16,
+        36
+      ],
+      "windows": [
+        {
+          "placement": 16,
+          "start": "00:00:36,000",
+          "end": "00:00:39,000",
+          "description": "Low track view in the April family-appeal report."
+        },
+        {
+          "placement": 36,
+          "start": "00:01:48,000",
+          "end": "00:01:56,000",
+          "description": "Reporter outside the police building in the April appeal package."
+        }
+      ],
+      "file_name": "C14__2024-04-26__10-tampa-bay-news__with-no-arrests-made-family-pleads-for-information-after-14__YiVcQQGFf_E.mp4"
+    },
+    {
+      "id": "C15",
+      "video_id": "pAtmiAZUuGU",
+      "url": "https://www.youtube.com/watch?v=pAtmiAZUuGU",
+      "title": "Family of Jevario Buie launches website in hopes of finding his killer",
+      "uploader": "Tampa Bay 28",
+      "upload_date": "2024-04-29",
+      "duration_seconds": 154.0,
+      "role": "picture source",
+      "placements": [
+        12,
+        18,
+        20,
+        25,
+        31
+      ],
+      "windows": [
+        {
+          "placement": 12,
+          "start": "00:01:48,000",
+          "end": "00:01:56,000",
+          "description": "Justice for Jevario website page visible in the news report."
+        },
+        {
+          "placement": 18,
+          "start": "00:00:20,000",
+          "end": "00:00:23,000",
+          "description": "Jevario’s standing portrait in the station report."
+        },
+        {
+          "placement": 20,
+          "start": "00:01:56,000",
+          "end": "00:02:00,000",
+          "description": "Public memorial website, including a memorial image."
+        },
+        {
+          "placement": 25,
+          "start": "00:00:24,000",
+          "end": "00:00:27,000",
+          "description": "Jevario’s car portrait."
+        },
+        {
+          "placement": 31,
+          "start": "00:02:00,000",
+          "end": "00:02:04,000",
+          "description": "Public memorial/fundraising webpage in the case report."
+        }
+      ],
+      "file_name": "C15__2024-04-29__tampa-bay-28__family-of-jevario-buie-launches-website-in-hopes-of-finding__pAtmiAZUuGU.mp4",
+      "notes": "Uploaded 2024-04-29 — earlier family-appeal coverage, not the funeral."
+    },
+    {
+      "id": "C16",
+      "video_id": "D28FFVJXLNw",
+      "url": "https://www.youtube.com/watch?v=D28FFVJXLNw",
+      "title": "14-year-old Tampa Boy will be laid to rest Saturday, as family searches for answers",
+      "uploader": "WFLA News Channel 8",
+      "upload_date": "2024-05-03",
+      "duration_seconds": 252.0,
+      "role": "picture source",
+      "placements": [
+        103,
+        105
+      ],
+      "windows": [
+        {
+          "placement": 103,
+          "start": "00:02:04,000",
+          "end": "00:02:08,000",
+          "description": "Michael Baldwin Sr. in the earlier outdoor interview."
+        },
+        {
+          "placement": 105,
+          "start": "00:02:48,000",
+          "end": "00:02:55,000",
+          "description": "Jevario’s memorial/name graphics shown in the family interview report."
+        }
+      ],
+      "file_name": "C16__2024-05-03__wfla-news-channel-8__14-year-old-tampa-boy-will-be-laid-to-rest-saturday-as__D28FFVJXLNw.mp4"
+    },
+    {
+      "id": "C17",
+      "video_id": "zyKDsEekos4",
+      "url": "https://www.youtube.com/watch?v=zyKDsEekos4",
+      "title": "Florida teen gets 55 years in 15-year-old's murder",
+      "uploader": "FOX 13 Tampa Bay",
+      "upload_date": "2026-10-17",
+      "duration_seconds": 174.0,
+      "role": "picture source",
+      "placements": [
+        17,
+        76,
+        89,
+        90,
+        91,
+        94,
+        97
+      ],
+      "windows": [
+        {
+          "placement": 17,
+          "start": "00:02:24,000",
+          "end": "00:02:32,000",
+          "description": "Wide sentencing courtroom with people at counsel tables and near the bench."
+        },
+        {
+          "placement": 76,
+          "start": "00:01:20,000",
+          "end": "00:01:28,000",
+          "description": "Police surveillance reproduced in sentencing reporting."
+        },
+        {
+          "placement": 89,
+          "start": "00:02:20,000",
+          "end": "00:02:23,000",
+          "description": "Jevario’s car portrait in sentencing reporting."
+        },
+        {
+          "placement": 90,
+          "start": "00:00:08,000",
+          "end": "00:00:14,000",
+          "description": "Moore in custody clothing approaching/standing before the sentencing bench."
+        },
+        {
+          "placement": 91,
+          "start": "00:01:04,000",
+          "end": "00:01:08,000",
+          "description": "Judge Goudie at the sentencing bench."
+        },
+        {
+          "placement": 94,
+          "start": "00:00:40,000",
+          "end": "00:01:00,000",
+          "description": "Wide sentencing courtroom with an adult man at the lectern facing the judge."
+        },
+        {
+          "placement": 97,
+          "start": "00:02:32,000",
+          "end": "00:02:35,000",
+          "description": "Wide courtroom after the adult lectern sequence."
+        }
+      ],
+      "file_name": "C17__2026-10-17__fox-13-tampa-bay__florida-teen-gets-55-years-in-15-year-old-s-murder__zyKDsEekos4.mp4",
+      "notes": "Title says the victim was 15; the narration's correct age is 14. Do not copy the title's age error into labels."
+    },
+    {
+      "id": "C18",
+      "video_id": "MRoEPt81UtQ",
+      "url": "https://www.youtube.com/watch?v=MRoEPt81UtQ",
+      "title": "Teen accused of murder denied bond after escaping from custody",
+      "uploader": "FOX 13 Tampa Bay",
+      "upload_date": "2024-12-18",
+      "duration_seconds": 136.0,
+      "role": "picture source",
+      "placements": [
+        15,
+        52,
+        57,
+        72,
+        73
+      ],
+      "windows": [
+        {
+          "placement": 15,
+          "start": "00:00:00,000",
+          "end": "00:00:03,000",
+          "description": "Moore standing in a red uniform and yellow vest at the hearing."
+        },
+        {
+          "placement": 52,
+          "start": "00:00:04,000",
+          "end": "00:00:07,000",
+          "description": "Judge shown looking at the bench papers in detention-hearing coverage."
+        },
+        {
+          "placement": 57,
+          "start": "00:00:28,000",
+          "end": "00:00:34,000",
+          "description": "Wide courtroom view during the detention-hearing report."
+        },
+        {
+          "placement": 72,
+          "start": "00:00:00,000",
+          "end": "00:00:13,000",
+          "description": "Moore, a judge, and the wide hearing courtroom appear in the station sequence."
+        },
+        {
+          "placement": 73,
+          "start": "00:00:34,000",
+          "end": "00:00:41,000",
+          "description": "Moore in custody clothing during the hearing report."
+        }
+      ],
+      "file_name": "C18__2024-12-18__fox-13-tampa-bay__teen-accused-of-murder-denied-bond-after-escaping-from__MRoEPt81UtQ.mp4",
+      "notes": "Uploaded 2024-12-18 but reports the Dec 17, 2024 hearing."
+    },
+    {
+      "id": "C19",
+      "video_id": "ehT8yrPb9E0",
+      "url": "https://www.youtube.com/watch?v=ehT8yrPb9E0",
+      "title": "15-year-old arrested for murder of Tampa teen found near railroad tracks",
+      "uploader": "FOX 13 Tampa Bay",
+      "upload_date": "2024-12-05",
+      "duration_seconds": 136.0,
+      "role": "picture source",
+      "placements": [
+        9,
+        59,
+        60,
+        63,
+        64,
+        99
+      ],
+      "windows": [
+        {
+          "placement": 9,
+          "start": "00:00:16,000",
+          "end": "00:00:19,000",
+          "description": "Jevario’s standing outdoor portrait."
+        },
+        {
+          "placement": 59,
+          "start": "00:01:24,000",
+          "end": "00:01:27,000",
+          "description": "Moore’s police portrait in the arrest report."
+        },
+        {
+          "placement": 60,
+          "start": "00:00:44,000",
+          "end": "00:00:52,000",
+          "description": "Wide December press conference with Bercaw and a display."
+        },
+        {
+          "placement": 63,
+          "start": "00:01:16,000",
+          "end": "00:01:22,000",
+          "description": "Chief Bercaw at the announcement podium."
+        },
+        {
+          "placement": 64,
+          "start": "00:01:36,000",
+          "end": "00:01:44,000",
+          "description": "Michael Baldwin Sr. speaking with officials/family behind him."
+        },
+        {
+          "placement": 99,
+          "start": "00:00:32,000",
+          "end": "00:00:35,000",
+          "description": "Chief Bercaw in a close view at the December briefing."
+        }
+      ],
+      "file_name": "C19__2024-12-05__fox-13-tampa-bay__15-year-old-arrested-for-murder-of-tampa-teen-found-near__ehT8yrPb9E0.mp4"
+    },
+    {
+      "id": "C20",
+      "video_id": "01cwmCRk9s4",
+      "url": "https://www.youtube.com/watch?v=01cwmCRk9s4",
+      "title": "Tampa police provide update on teen who escaped from detention center",
+      "uploader": "WFLA News Channel 8",
+      "upload_date": "2024-12-08",
+      "duration_seconds": 359.0,
+      "role": "picture source",
+      "placements": [
+        100
+      ],
+      "windows": [
+        {
+          "placement": 100,
+          "start": "00:02:05,000",
+          "end": "00:02:20,000",
+          "description": "Cate at the outdoor escape-search briefing, police car behind her."
+        }
+      ],
+      "file_name": "C20__2024-12-08__wfla-news-channel-8__tampa-police-provide-update-on-teen-who-escaped-from__01cwmCRk9s4.mp4"
+    },
+    {
+      "id": "C21",
+      "video_id": "MrRx2a1NT8s",
+      "url": "https://www.youtube.com/watch?v=MrRx2a1NT8s",
+      "title": "Sentencing is planned for Jahmir Moore on Friday",
+      "uploader": "10 Tampa Bay News",
+      "upload_date": "2026-10-16",
+      "duration_seconds": 31.0,
+      "role": "picture source",
+      "placements": [
+        13,
+        78,
+        98
+      ],
+      "windows": [
+        {
+          "placement": 13,
+          "start": "00:00:22,000",
+          "end": "00:00:24,000",
+          "description": "Wide courtroom view in the case’s later news report."
+        },
+        {
+          "placement": 78,
+          "start": "00:00:07,000",
+          "end": "00:00:10,000",
+          "description": "Counsel table and papers in the case’s later court report."
+        },
+        {
+          "placement": 98,
+          "start": "00:00:15,000",
+          "end": "00:00:19,000",
+          "description": "Case surveillance carried in the later news update."
+        }
+      ],
+      "file_name": "C21__2026-10-16__10-tampa-bay-news__sentencing-is-planned-for-jahmir-moore-on-friday__MrRx2a1NT8s.mp4"
+    }
+  ],
+  "blocked": [
+    {
+      "registry_id": "G003",
+      "placement": 3,
+      "reason": "The specified two-person 3:33 camera view is not established by the three-person release"
+    },
+    {
+      "registry_id": "G004",
+      "placement": 4,
+      "reason": "Hands, gait and following distance in the described two-person shot have no verified matching crop"
+    },
+    {
+      "registry_id": "G006",
+      "placement": 6,
+      "reason": "No case footage verifies the hook’s laundry, cooking, barking dog or neighbors’ knowledge"
+    },
+    {
+      "registry_id": "G007",
+      "placement": 7,
+      "reason": "No original YouTube crop of the described lone 3:36 departure was established"
+    },
+    {
+      "registry_id": "G008",
+      "placement": 8,
+      "reason": "The post-shooting gait/hand movements described here cannot be illustrated by the unrelated escape-running video"
+    },
+    {
+      "registry_id": "G027",
+      "placement": 27,
+      "reason": "The distinct two-person and lone-departure camera views and exact North Rome sequence are not verified here"
+    },
+    {
+      "registry_id": "G033",
+      "placement": 33,
+      "reason": "No clean YouTube crop of the May 4 service/burial was verified; a May 3 interview is not the funeral"
+    },
+    {
+      "registry_id": "G044",
+      "placement": 44,
+      "reason": "No verified YouTube image of the recovered phone and its screen was located"
+    },
+    {
+      "registry_id": "G045",
+      "placement": 45,
+      "reason": "No original YouTube exhibit window verifying both Instagram handles is available"
+    },
+    {
+      "registry_id": "G046",
+      "placement": 46,
+      "reason": "No verified display of the specific follow dates and meeting messages was found"
+    },
+    {
+      "registry_id": "G047",
+      "placement": 47,
+      "reason": "No verified original Citgo photograph/message exhibit window was located"
+    },
+    {
+      "registry_id": "G049",
+      "placement": 49,
+      "reason": "The third teenager’s interview is not verified as a releasable YouTube recording; do not identify a young witness"
+    },
+    {
+      "registry_id": "G051",
+      "placement": 51,
+      "reason": "No distinct YouTube footage of the September car-theft surrender is verified"
+    },
+    {
+      "registry_id": "G053",
+      "placement": 53,
+      "reason": "No chain-of-custody log, extraction demonstration or relevant case-evidence handling footage was verified"
+    },
+    {
+      "registry_id": "G055",
+      "placement": 55,
+      "reason": "The homicide-search and weapon-claim exhibits have no verified safe YouTube crop here"
+    },
+    {
+      "registry_id": "G056",
+      "placement": 56,
+      "reason": "No verified display of the account-switch message or the separate non-public-detail message was located"
+    },
+    {
+      "registry_id": "G074",
+      "placement": 74,
+      "reason": "No verified YouTube footage of the alleged March incident or Claymore scene was found"
+    },
+    {
+      "registry_id": "G075",
+      "placement": 75,
+      "reason": "No verified source window showing the March group-chat exhibit was located"
+    },
+    {
+      "registry_id": "G077",
+      "placement": 77,
+      "reason": "No original YouTube trial opening/explanation by Sinardi was verified"
+    },
+    {
+      "registry_id": "G080",
+      "placement": 80,
+      "reason": "No verified YouTube window of Fossett’s opening/slides was located"
+    },
+    {
+      "registry_id": "G081",
+      "placement": 81,
+      "reason": "No verified YouTube window of Sinardi’s opening/medical-examiner argument was located"
+    },
+    {
+      "registry_id": "G082",
+      "placement": 82,
+      "reason": "No verified Belara Lakes/route exhibit crop was located; no unrelated apartment footage substituted"
+    },
+    {
+      "registry_id": "G083",
+      "placement": 83,
+      "reason": "No verified Norton testimony crop was found; no young witness is identified by inference"
+    },
+    {
+      "registry_id": "G084",
+      "placement": 84,
+      "reason": "No safe verified recording/exhibit crop is selected; the crime-scene photograph and gallery distress are intentionally not shown"
+    },
+    {
+      "registry_id": "G085",
+      "placement": 85,
+      "reason": "No original YouTube window of Moore testifying was verified; a defendant seated silently is not testimony footage"
+    },
+    {
+      "registry_id": "G086",
+      "placement": 86,
+      "reason": "No verified lone-walk/phone-browsing courtroom exhibit or rebuttal crop was found"
+    },
+    {
+      "registry_id": "G087",
+      "placement": 87,
+      "reason": "No verified safe shorts/exhibit or medical-evidence window was located"
+    },
+    {
+      "registry_id": "G093",
+      "placement": 93,
+      "reason": "No clean verified mitigation memorandum or supporting biographical exhibit is available on YouTube"
+    },
+    {
+      "registry_id": "G095",
+      "placement": 95,
+      "reason": "No verified YouTube source presenting the applicable statute/review factors accurately was located"
+    },
+    {
+      "registry_id": "G101",
+      "placement": 101,
+      "reason": "No verified statute/review explainer window matches the application-and-counsel procedure"
+    },
+    {
+      "registry_id": "G102",
+      "placement": 102,
+      "reason": "No verified source window matches conditional modification/probation and relatives’ participation rules"
+    },
+    {
+      "registry_id": "G104",
+      "placement": 104,
+      "reason": "No November appellate docket/status video was verified; a sentencing report is not evidence that no appeal was filed"
+    }
+  ]
+}
